@@ -32,12 +32,19 @@ Retro terminal portfolio. Visitors type commands to navigate projects. CRT aesth
 - [x] Skip boot with any keypress
 - [x] Build verified clean
 
-### Phase 3: Core Commands
-- [ ] `about` -- bio/intro
-- [ ] `projects` -- list projects
-- [ ] `open <project>` -- project detail view
-- [ ] `skills` -- tech stack display
-- [ ] `contact` -- contact info
+### Phase 3: Core Commands [DONE]
+- [x] `about` -- bio/intro with box art
+- [x] `projects` -- list projects with status tags [LIVE]/[DEV]
+- [x] `open <project>` -- project detail view with description, stack, status, links
+- [x] `skills` -- categorized tech stack display
+- [x] `contact` -- contact info with box art
+- [x] `banner` -- re-show welcome ASCII art
+- [x] `whoami` -- returns "visitor"
+- [x] `date` -- current date/time
+- [x] `echo <text>` -- print text
+- [x] Project data structure (lib/projects.ts) -- easy to add new projects
+- [x] Fuzzy project name matching (open blacksite / open blacksite-07 both work)
+- [x] Build verified clean
 
 ### Phase 4: Project Details + Media
 - [ ] Project data structure
