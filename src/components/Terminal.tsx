@@ -20,7 +20,7 @@ function LinkifyText({ text }: { text: string }) {
             href={part}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-green-200 cursor-pointer"
+            className="underline hover:text-green-200 cursor-pointer c-function"
             onClick={(e) => e.stopPropagation()}
           >
             {part}
@@ -33,10 +33,29 @@ function LinkifyText({ text }: { text: string }) {
   );
 }
 
+// Line style types matching code editor colours
+type LineStyle = "title" | "heading" | "text" | "dim" | "keyword" | "string" | "value" | "error" | "input" | "link";
+
 interface TerminalLine {
   id: number;
-  type: "input" | "output" | "error";
+  style: LineStyle;
   text: string;
+}
+
+function lineClass(style: LineStyle): string {
+  switch (style) {
+    case "title":    return "glow-green";
+    case "heading":  return "c-keyword";
+    case "text":     return "c-text";
+    case "dim":      return "c-comment";
+    case "keyword":  return "c-keyword";
+    case "string":   return "c-string";
+    case "value":    return "c-number";
+    case "error":    return "c-variable";
+    case "input":    return "c-green";
+    case "link":     return "c-function";
+    default:         return "c-text";
+  }
 }
 
 const PROMPT = "visitor@icu.terminal:~$ ";
@@ -67,50 +86,50 @@ export default function Terminal() {
 
   useEffect(() => {
     let id = 0;
-    const welcome: TerminalLine[] = [
-      { id: id++, type: "output", text: "" },
-      { id: id++, type: "output", text: "  ██╗ ██████╗██╗   ██╗" },
-      { id: id++, type: "output", text: "  ██║██╔════╝██║   ██║" },
-      { id: id++, type: "output", text: "  ██║██║     ██║   ██║" },
-      { id: id++, type: "output", text: "  ██║██║     ██║   ██║" },
-      { id: id++, type: "output", text: "  ██║╚██████╗╚██████╔╝" },
-      { id: id++, type: "output", text: "  ╚═╝ ╚═════╝ ╚═════╝ " },
-      { id: id++, type: "output", text: "" },
-      { id: id++, type: "output", text: "  ICU.TERMINAL v1.0" },
-      { id: id++, type: "output", text: "  Interactive Portfolio System" },
-      { id: id++, type: "output", text: "  https://github.com/ICY0U" },
-      { id: id++, type: "output", text: "" },
-      { id: id++, type: "output", text: "  ─── PROJECTS ───────────────────────────" },
-      { id: id++, type: "output", text: "" },
+    const w: TerminalLine[] = [
+      { id: id++, style: "title", text: "" },
+      { id: id++, style: "title", text: "  ██╗ ██████╗██╗   ██╗" },
+      { id: id++, style: "title", text: "  ██║██╔════╝██║   ██║" },
+      { id: id++, style: "title", text: "  ██║██║     ██║   ██║" },
+      { id: id++, style: "title", text: "  ██║██║     ██║   ██║" },
+      { id: id++, style: "title", text: "  ██║╚██████╗╚██████╔╝" },
+      { id: id++, style: "title", text: "  ╚═╝ ╚═════╝ ╚═════╝ " },
+      { id: id++, style: "text", text: "" },
+      { id: id++, style: "keyword", text: "  ICU.TERMINAL v1.0" },
+      { id: id++, style: "dim", text: "  Interactive Portfolio System" },
+      { id: id++, style: "link", text: "  https://github.com/ICY0U" },
+      { id: id++, style: "text", text: "" },
+      { id: id++, style: "heading", text: "  ─── PROJECTS ───────────────────────────" },
+      { id: id++, style: "text", text: "" },
     ];
 
     projects.forEach((p) => {
       const header = projectHeaders[p.id];
       if (header) {
         header.forEach((line) => {
-          welcome.push({ id: id++, type: "output", text: line });
+          w.push({ id: id++, style: "title", text: line });
         });
       }
       const status =
         p.status === "Live" ? "LIVE" :
         p.status === "In Development" ? "IN DEV" :
         p.status === "Complete" ? "DONE" : "IDEA";
-      welcome.push({ id: id++, type: "output", text: `  ${p.tagline}` });
-      welcome.push({ id: id++, type: "output", text: `  Status: ${status}  |  Type: open ${p.id}` });
+      w.push({ id: id++, style: "text", text: `  ${p.tagline}` });
+      w.push({ id: id++, style: "dim", text: `  Status: ${status}  |  Type: open ${p.id}` });
       if (p.links && p.links.length > 0) {
         p.links.forEach((link) => {
-          welcome.push({ id: id++, type: "output", text: `  ${link.label}: ${link.url}` });
+          w.push({ id: id++, style: "link", text: `  ${link.label}: ${link.url}` });
         });
       }
-      welcome.push({ id: id++, type: "output", text: "" });
+      w.push({ id: id++, style: "text", text: "" });
     });
 
-    welcome.push({ id: id++, type: "output", text: "  ───────────────────────────────────────" });
-    welcome.push({ id: id++, type: "output", text: "" });
-    welcome.push({ id: id++, type: "output", text: '  Type "help" for available commands.' });
-    welcome.push({ id: id++, type: "output", text: "" });
+    w.push({ id: id++, style: "heading", text: "  ───────────────────────────────────────" });
+    w.push({ id: id++, style: "text", text: "" });
+    w.push({ id: id++, style: "dim", text: '  Type "help" for available commands.' });
+    w.push({ id: id++, style: "text", text: "" });
 
-    setLines(welcome);
+    setLines(w);
     setLineCounter(id);
   }, []);
 
@@ -123,7 +142,7 @@ export default function Terminal() {
 
     const inputLine: TerminalLine = {
       id: lineCounter,
-      type: "input",
+      style: "input",
       text: PROMPT + input,
     };
 
@@ -143,7 +162,7 @@ export default function Terminal() {
     let nextId = lineCounter + 1;
     const outputLines: TerminalLine[] = result.output.map((text) => ({
       id: nextId++,
-      type: result.isError ? ("error" as const) : ("output" as const),
+      style: result.isError ? ("error" as const) : ("text" as const),
       text,
     }));
 
@@ -189,7 +208,7 @@ export default function Terminal() {
 
   return (
     <div
-      className="h-screen w-screen flex flex-col bg-[#0a0a0a] cursor-text terminal-glow"
+      className="h-screen w-screen flex flex-col bg-[#0a0a0a] cursor-text"
       onClick={handleClick}
     >
       <div
@@ -202,13 +221,7 @@ export default function Terminal() {
           {lines.map((line) => (
             <div
               key={line.id}
-              className={`whitespace-pre-wrap text-sm leading-6 ${
-                line.type === "error"
-                  ? "text-red-400"
-                  : line.type === "input"
-                  ? "text-green-300"
-                  : "text-green-400"
-              }`}
+              className={`whitespace-pre-wrap text-sm leading-6 ${lineClass(line.style)}`}
             >
               <LinkifyText text={line.text} />
             </div>
@@ -217,7 +230,7 @@ export default function Terminal() {
       </div>
 
       <div className="px-4 pb-4 flex items-center text-sm">
-        <span className="text-green-500 whitespace-pre select-none">
+        <span className="c-green whitespace-pre select-none">
           {PROMPT}
         </span>
         <input
@@ -226,13 +239,13 @@ export default function Terminal() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="flex-1 bg-transparent text-green-400 outline-none text-sm"
+          className="flex-1 bg-transparent c-text outline-none text-sm"
           style={{ caretColor: "transparent" }}
           spellCheck={false}
           autoComplete="off"
           autoCapitalize="off"
         />
-        <span className="text-green-400 cursor-blink">_</span>
+        <span className="c-green cursor-blink">_</span>
       </div>
     </div>
   );

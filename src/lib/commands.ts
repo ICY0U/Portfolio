@@ -123,7 +123,6 @@ const commands: Record<string, CommandHandler> = {
       "",
     ];
 
-    // Description
     project.description.forEach((line) => {
       lines.push(`  ${line}`);
     });
@@ -132,7 +131,6 @@ const commands: Record<string, CommandHandler> = {
     lines.push(`  Stack:   ${project.stack.join(", ")}`);
     lines.push(`  Status:  ${project.status}`);
 
-    // Links
     if (project.links && project.links.length > 0) {
       lines.push("");
       project.links.forEach((link) => {
@@ -152,19 +150,24 @@ const commands: Record<string, CommandHandler> = {
       "",
       "  LANGUAGES",
       "  ----------",
-      "  TypeScript    JavaScript    C++    Python",
+      "  C++    TypeScript    JavaScript    Python",
       "",
       "  FRONTEND",
       "  ----------",
       "  Next.js    React    Tailwind CSS    Framer Motion",
       "",
-      "  TOOLS",
+      "  TOOLS & EDITORS",
       "  ----------",
-      "  Git    Linux    Blender    VS Code",
+      "  VS Code    Linux    Blender",
       "",
       "  GAME DEV",
       "  ----------",
-      "  Web-based game systems    Terminal UI    Retro aesthetics",
+      "  Custom Engine (C++/OpenGL)    Web-based game systems",
+      "  Terminal UI    Retro aesthetics",
+      "",
+      "  EXTENSIONS",
+      "  ----------",
+      "  VS Code API    Extension development",
       "",
     ],
   }),

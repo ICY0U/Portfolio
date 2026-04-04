@@ -4,6 +4,16 @@
   --terminal-green: #00ff41;
   --terminal-green-dim: #00cc33;
   --terminal-bg: #0a0a0a;
+
+  /* Code-style colours */
+  --c-comment: #6a737d;
+  --c-keyword: #c678dd;
+  --c-string: #e5c07b;
+  --c-function: #61afef;
+  --c-variable: #e06c75;
+  --c-text: #abb2bf;
+  --c-number: #d19a66;
+  --c-type: #56b6c2;
 }
 
 * {
@@ -17,7 +27,7 @@ body {
   height: 100%;
   overflow: hidden;
   background: var(--terminal-bg);
-  color: var(--terminal-green);
+  color: var(--c-text);
   font-family: var(--font-mono), "Courier New", monospace;
 }
 
@@ -35,18 +45,30 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--terminal-green-dim);
+  background: #3a3a3a;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--terminal-green);
+  background: #555;
 }
 
-/* CRT text glow */
-.terminal-glow {
-  text-shadow: 0 0 4px rgba(0, 255, 65, 0.6), 0 0 8px rgba(0, 255, 65, 0.3);
+/* Glow ONLY on headings/titles */
+.glow-green {
+  color: var(--terminal-green);
+  text-shadow: 0 0 4px rgba(0, 255, 65, 0.5), 0 0 8px rgba(0, 255, 65, 0.2);
 }
+
+/* Code colour classes */
+.c-comment { color: var(--c-comment); }
+.c-keyword { color: var(--c-keyword); }
+.c-string { color: var(--c-string); }
+.c-function { color: var(--c-function); }
+.c-variable { color: var(--c-variable); }
+.c-text { color: var(--c-text); }
+.c-number { color: var(--c-number); }
+.c-type { color: var(--c-type); }
+.c-green { color: var(--terminal-green); }
 
 /* Screen flicker animation */
 @keyframes flicker {
