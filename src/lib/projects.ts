@@ -48,6 +48,36 @@ export const projects: Project[] = [
       { label: "GitHub", url: "https://github.com/ICY0U/ICU-Tools" },
     ],
   },
+  {
+    id: "rayvs",
+    name: "RAYVS",
+    tagline: "Web-based game prototype built with C++ and raylib",
+    description: [
+      "A playable game prototype compiled to HTML5.",
+      "Built from scratch in C++ using the raylib library,",
+      "running directly in the browser via WebAssembly.",
+    ],
+    stack: ["C++", "raylib", "WebAssembly"],
+    status: "Live",
+    links: [
+      { label: "Play", url: "https://icu92.itch.io/rayvs?secret=oW5YuivAJQ08D3cbgwzDHop5T3Q" },
+    ],
+  },
+  {
+    id: "towercu",
+    name: "TOWERCU",
+    tagline: "Tower defence strategy game built with C++ and raylib",
+    description: [
+      "A tower defence strategy game prototype playable in",
+      "the browser. Built in C++ with raylib and compiled",
+      "to WebAssembly for HTML5.",
+    ],
+    stack: ["C++", "raylib", "WebAssembly"],
+    status: "Live",
+    links: [
+      { label: "Play", url: "https://icu92.itch.io/towercu?secret=zZdQoWJHEBBxqql8EuwejK4iGLk" },
+    ],
+  },
   // ─── IN DEVELOPMENT ───
   {
     id: "blacksite-07",
