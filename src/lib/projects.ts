@@ -12,10 +12,10 @@ export const projects: Project[] = [
   {
     id: "blacksite-07",
     name: "BLACKSITE-07",
-    tagline: "Cinematic terminal-based AI thriller game",
+    tagline: "Cinematic terminal-based thriller game",
     description: [
       "You're a new operator at a classified Department of",
-      "Defense facility. Something has gone wrong with the AI",
+      "Defense facility. Something has gone wrong in the",
       "research division. Navigate the retro terminal OS to",
       "uncover what happened at BLACKSITE-07.",
       "",
