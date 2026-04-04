@@ -9,6 +9,46 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  // ─── LIVE ───
+  {
+    id: "write4you",
+    name: "WRITE4YOU",
+    tagline: "Lyric generation app powered by real artist data",
+    description: [
+      "A lyric generating app built on a database of over",
+      "188 real artists. Matches vocal style, lyric structure,",
+      "and cadence to produce authentic results.",
+      "",
+      "Select an artist and generate lyrics that match their",
+      "writing patterns, flow, and rhythm.",
+    ],
+    stack: ["Firebase", "Web App"],
+    status: "Live",
+    links: [
+      { label: "Live", url: "https://write4you.web.app/" },
+    ],
+  },
+  {
+    id: "icu-tools",
+    name: "ICU TOOLS",
+    tagline: "VS Code extension for custom action bar buttons",
+    description: [
+      "A Visual Studio Code plugin that lets you customise",
+      "the action bar with your own buttons for quick",
+      "commands.",
+      "",
+      "Set up one-click buttons for Run, Build, Build & Run",
+      "and any other command you use frequently. Each button",
+      "supports custom presets so you can tailor your",
+      "workflow without touching keybinds.",
+    ],
+    stack: ["TypeScript", "VS Code API"],
+    status: "Live",
+    links: [
+      { label: "GitHub", url: "https://github.com/ICY0U/ICU-Tools" },
+    ],
+  },
+  // ─── IN DEVELOPMENT ───
   {
     id: "blacksite-07",
     name: "BLACKSITE-07",
@@ -47,26 +87,6 @@ export const projects: Project[] = [
     status: "In Development",
     links: [
       { label: "GitHub", url: "https://github.com/ICY0U/War-Times_V0.01" },
-    ],
-  },
-  {
-    id: "icu-tools",
-    name: "ICU TOOLS",
-    tagline: "VS Code extension for custom action bar buttons",
-    description: [
-      "A Visual Studio Code plugin that lets you customise",
-      "the action bar with your own buttons for quick",
-      "commands.",
-      "",
-      "Set up one-click buttons for Run, Build, Build & Run",
-      "and any other command you use frequently. Each button",
-      "supports custom presets so you can tailor your",
-      "workflow without touching keybinds.",
-    ],
-    stack: ["TypeScript", "VS Code API"],
-    status: "Live",
-    links: [
-      { label: "GitHub", url: "https://github.com/ICY0U/ICU-Tools" },
     ],
   },
 ];
