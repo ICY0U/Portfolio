@@ -169,6 +169,15 @@ export default function Terminal() {
       text,
     }));
 
+    // Handle theme action
+    if (result.action?.type === "theme") {
+      const root = document.documentElement;
+      root.classList.remove("theme-amber", "theme-white");
+      if (result.action.value !== "green") {
+        root.classList.add(`theme-${result.action.value}`);
+      }
+    }
+
     setLines((prev) => [...prev, inputLine, ...outputLines]);
     setLineCounter(nextId);
     setInput("");
@@ -219,7 +228,7 @@ export default function Terminal() {
     >
       <div
         ref={scrollRef}
-        className={`flex-1 overflow-y-auto px-4 pb-2 ${
+        className={`flex-1 overflow-y-auto px-3 sm:px-4 pb-2 ${
           hasInteracted ? "pt-4" : "flex flex-col justify-center"
         }`}
       >
@@ -227,7 +236,7 @@ export default function Terminal() {
           {lines.map((line) => (
             <div
               key={line.id}
-              className={`whitespace-pre-wrap text-sm leading-6 ${lineClass(line.style)}`}
+              className={`whitespace-pre-wrap text-xs sm:text-sm leading-5 sm:leading-6 ${lineClass(line.style)}`}
             >
               <LinkifyText text={line.text} />
             </div>
@@ -235,7 +244,7 @@ export default function Terminal() {
         </div>
       </div>
 
-      <div className="px-4 pb-4 flex items-center text-sm">
+      <div className="px-3 sm:px-4 pb-4 flex items-center text-xs sm:text-sm">
         <span className="c-green whitespace-pre select-none">
           {PROMPT}
         </span>

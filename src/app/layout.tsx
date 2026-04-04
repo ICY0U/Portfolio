@@ -8,8 +8,20 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ICU.TERMINAL",
-  description: "Interactive terminal portfolio",
+  title: "ICU | Developer Portfolio",
+  description: "Interactive terminal portfolio by ICU. Games, tools, and creative coding projects. Built with Next.js.",
+  keywords: ["developer", "portfolio", "terminal", "C++", "TypeScript", "game dev", "ICU"],
+  authors: [{ name: "ICU" }],
+  openGraph: {
+    title: "ICU | Developer Portfolio",
+    description: "Interactive terminal portfolio. Games, tools, and creative coding.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "ICU | Developer Portfolio",
+    description: "Interactive terminal portfolio. Games, tools, and creative coding.",
+  },
 };
 
 export default function RootLayout({

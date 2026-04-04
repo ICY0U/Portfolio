@@ -1,15 +1,19 @@
 export interface CommandResult {
   output: string[];
   isError?: boolean;
+  action?: { type: "theme"; value: string };
 }
 
 export type CommandHandler = (args: string[]) => CommandResult;
 
 import { projects, getProject } from "./projects";
+import { projectHeaders } from "./ascii";
 
 function pad(str: string, len: number): string {
   return str + " ".repeat(Math.max(0, len - str.length));
 }
+
+const THEMES = ["green", "amber", "white"];
 
 const commands: Record<string, CommandHandler> = {
   help: () => ({
@@ -25,6 +29,7 @@ const commands: Record<string, CommandHandler> = {
       "  skills            Tech stack & tools",
       "  contact           Get in touch",
       "  clear             Clear the terminal",
+      "  theme <color>     Switch theme (green|amber|white)",
       "  banner            Show the welcome banner",
       "  whoami            Display current user",
       "  date              Show current date/time",
@@ -112,16 +117,22 @@ const commands: Record<string, CommandHandler> = {
       };
     }
 
-    const divider = "═".repeat(46);
-    const lines = [
-      "",
-      `  ╔${divider}╗`,
-      `  ║  ${pad(project.name, 44)}║`,
-      `  ╚${divider}╝`,
-      "",
-      `  ${project.tagline}`,
-      "",
-    ];
+    const lines: string[] = [""];
+
+    // ASCII header if available, otherwise box header
+    const header = projectHeaders[project.id];
+    if (header) {
+      header.forEach((line) => lines.push(line));
+    } else {
+      const divider = "═".repeat(46);
+      lines.push(`  ╔${divider}╗`);
+      lines.push(`  ║  ${pad(project.name, 44)}║`);
+      lines.push(`  ╚${divider}╝`);
+    }
+
+    lines.push("");
+    lines.push(`  ${project.tagline}`);
+    lines.push("");
 
     project.description.forEach((line) => {
       lines.push(`  ${line}`);
@@ -187,6 +198,23 @@ const commands: Record<string, CommandHandler> = {
       "",
     ],
   }),
+
+  theme: (args: string[]) => {
+    const color = args[0]?.toLowerCase();
+    if (!color || !THEMES.includes(color)) {
+      return {
+        output: [
+          `  Usage: theme <${THEMES.join("|")}>`,
+          `  Current themes: ${THEMES.join(", ")}`,
+        ],
+        isError: true,
+      };
+    }
+    return {
+      output: [`  Theme switched to ${color}.`],
+      action: { type: "theme", value: color },
+    };
+  },
 
   banner: () => ({
     output: [

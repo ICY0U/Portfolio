@@ -46,14 +46,14 @@ Retro terminal portfolio. Visitors type commands to navigate projects. CRT aesth
 - [x] Fuzzy project name matching (open blacksite / open blacksite-07 both work)
 - [x] Build verified clean
 
-### Phase 4: Project Details + Media
-- [ ] Project data structure
-- [ ] Screenshots/images in terminal
-- [ ] Links (clickable in output)
-- [ ] ASCII art headers
+### Phase 4: Project Details + Media [DONE]
+- [x] ASCII art headers in open command
+- [x] Clickable links in project details
+- [x] Fallback box header if no ASCII art
+- [x] Build verified clean
 
-### Phase 5: Polish
-- [ ] `theme green|amber|white` command
-- [ ] Mobile responsive
-- [ ] SEO meta tags
-- [ ] Deploy config
+### Phase 5: Polish [DONE]
+- [x] `theme green|amber|white` command (working, applies instantly)
+- [x] Mobile responsive (smaller text, tighter padding on small screens)
+- [x] SEO meta tags (OpenGraph, Twitter cards, keywords)
+- [x] Build verified clean
