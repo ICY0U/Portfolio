@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect, useCallback, KeyboardEvent } from "react";
 import { executeCommand } from "@/lib/commands";
 import { projects } from "@/lib/projects";
-import { projectHeaders } from "@/lib/ascii";
 
 const URL_REGEX = /(https?:\/\/[^\s]+)/g;
 
@@ -76,30 +75,26 @@ function buildWelcome(startId: number): { lines: TerminalLine[]; nextId: number 
     { id: id++, style: "text", text: "" },
   ];
 
-  projects.forEach((p) => {
-    const header = projectHeaders[p.id];
-    if (header) {
-      header.forEach((line) => {
-        w.push({ id: id++, style: "title", text: line });
-      });
-    }
-    const status =
-      p.status === "Live" ? "LIVE" :
-      p.status === "In Development" ? "IN DEV" :
-      p.status === "Complete" ? "DONE" : "IDEA";
-    w.push({ id: id++, style: "text", text: `  ${p.tagline}` });
-    w.push({ id: id++, style: "dim", text: `  Status: ${status}  |  Type: open ${p.id}` });
-    if (p.links && p.links.length > 0) {
-      p.links.forEach((link) => {
-        w.push({ id: id++, style: "link", text: `  ${link.label}: ${link.url}` });
-      });
-    }
-    w.push({ id: id++, style: "text", text: "" });
+  // Compact list: one line per project
+  const liveProjects = projects.filter(p => p.status === "Live");
+  const devProjects = projects.filter(p => p.status !== "Live");
+
+  liveProjects.forEach((p) => {
+    w.push({ id: id++, style: "text", text: `  ▸ ${p.name.padEnd(16)} │ ${p.tagline}` });
   });
 
+  if (devProjects.length > 0) {
+    w.push({ id: id++, style: "text", text: "" });
+    w.push({ id: id++, style: "dim", text: "  IN DEVELOPMENT" });
+    devProjects.forEach((p) => {
+      w.push({ id: id++, style: "dim", text: `  ▸ ${p.name.padEnd(16)} │ ${p.tagline}` });
+    });
+  }
+
+  w.push({ id: id++, style: "text", text: "" });
   w.push({ id: id++, style: "heading", text: "  ───────────────────────────────────────" });
   w.push({ id: id++, style: "text", text: "" });
-  w.push({ id: id++, style: "dim", text: '  Type "help" for available commands.' });
+  w.push({ id: id++, style: "dim", text: '  Type "open <name>" for details  │  "help" for commands' });
   w.push({ id: id++, style: "text", text: "" });
 
   return { lines: w, nextId: id };
