@@ -33,7 +33,6 @@ function LinkifyText({ text }: { text: string }) {
   );
 }
 
-// Line style types matching code editor colours
 type LineStyle = "title" | "heading" | "text" | "dim" | "keyword" | "string" | "value" | "error" | "input" | "link";
 
 interface TerminalLine {
@@ -56,6 +55,54 @@ function lineClass(style: LineStyle): string {
     case "link":     return "c-function";
     default:         return "c-text";
   }
+}
+
+function buildWelcome(startId: number): { lines: TerminalLine[]; nextId: number } {
+  let id = startId;
+  const w: TerminalLine[] = [
+    { id: id++, style: "title", text: "" },
+    { id: id++, style: "title", text: "  ██╗ ██████╗██╗   ██╗" },
+    { id: id++, style: "title", text: "  ██║██╔════╝██║   ██║" },
+    { id: id++, style: "title", text: "  ██║██║     ██║   ██║" },
+    { id: id++, style: "title", text: "  ██║██║     ██║   ██║" },
+    { id: id++, style: "title", text: "  ██║╚██████╗╚██████╔╝" },
+    { id: id++, style: "title", text: "  ╚═╝ ╚═════╝ ╚═════╝ " },
+    { id: id++, style: "text", text: "" },
+    { id: id++, style: "keyword", text: "  ICU.TERMINAL v1.0" },
+    { id: id++, style: "dim", text: "  Interactive Portfolio System" },
+    { id: id++, style: "link", text: "  https://github.com/ICY0U" },
+    { id: id++, style: "text", text: "" },
+    { id: id++, style: "heading", text: "  ─── PROJECTS ───────────────────────────" },
+    { id: id++, style: "text", text: "" },
+  ];
+
+  projects.forEach((p) => {
+    const header = projectHeaders[p.id];
+    if (header) {
+      header.forEach((line) => {
+        w.push({ id: id++, style: "title", text: line });
+      });
+    }
+    const status =
+      p.status === "Live" ? "LIVE" :
+      p.status === "In Development" ? "IN DEV" :
+      p.status === "Complete" ? "DONE" : "IDEA";
+    w.push({ id: id++, style: "text", text: `  ${p.tagline}` });
+    w.push({ id: id++, style: "dim", text: `  Status: ${status}  |  Type: open ${p.id}` });
+    if (p.links && p.links.length > 0) {
+      p.links.forEach((link) => {
+        w.push({ id: id++, style: "link", text: `  ${link.label}: ${link.url}` });
+      });
+    }
+    w.push({ id: id++, style: "text", text: "" });
+  });
+
+  w.push({ id: id++, style: "heading", text: "  ───────────────────────────────────────" });
+  w.push({ id: id++, style: "text", text: "" });
+  w.push({ id: id++, style: "dim", text: '  Type "help" for available commands.' });
+  w.push({ id: id++, style: "text", text: "" });
+
+  return { lines: w, nextId: id };
 }
 
 const PROMPT = "visitor@icu.terminal:~$ ";
@@ -84,53 +131,11 @@ export default function Terminal() {
     inputRef.current?.focus();
   }, []);
 
+  // Initial welcome
   useEffect(() => {
-    let id = 0;
-    const w: TerminalLine[] = [
-      { id: id++, style: "title", text: "" },
-      { id: id++, style: "title", text: "  ██╗ ██████╗██╗   ██╗" },
-      { id: id++, style: "title", text: "  ██║██╔════╝██║   ██║" },
-      { id: id++, style: "title", text: "  ██║██║     ██║   ██║" },
-      { id: id++, style: "title", text: "  ██║██║     ██║   ██║" },
-      { id: id++, style: "title", text: "  ██║╚██████╗╚██████╔╝" },
-      { id: id++, style: "title", text: "  ╚═╝ ╚═════╝ ╚═════╝ " },
-      { id: id++, style: "text", text: "" },
-      { id: id++, style: "keyword", text: "  ICU.TERMINAL v1.0" },
-      { id: id++, style: "dim", text: "  Interactive Portfolio System" },
-      { id: id++, style: "link", text: "  https://github.com/ICY0U" },
-      { id: id++, style: "text", text: "" },
-      { id: id++, style: "heading", text: "  ─── PROJECTS ───────────────────────────" },
-      { id: id++, style: "text", text: "" },
-    ];
-
-    projects.forEach((p) => {
-      const header = projectHeaders[p.id];
-      if (header) {
-        header.forEach((line) => {
-          w.push({ id: id++, style: "title", text: line });
-        });
-      }
-      const status =
-        p.status === "Live" ? "LIVE" :
-        p.status === "In Development" ? "IN DEV" :
-        p.status === "Complete" ? "DONE" : "IDEA";
-      w.push({ id: id++, style: "text", text: `  ${p.tagline}` });
-      w.push({ id: id++, style: "dim", text: `  Status: ${status}  |  Type: open ${p.id}` });
-      if (p.links && p.links.length > 0) {
-        p.links.forEach((link) => {
-          w.push({ id: id++, style: "link", text: `  ${link.label}: ${link.url}` });
-        });
-      }
-      w.push({ id: id++, style: "text", text: "" });
-    });
-
-    w.push({ id: id++, style: "heading", text: "  ───────────────────────────────────────" });
-    w.push({ id: id++, style: "text", text: "" });
-    w.push({ id: id++, style: "dim", text: '  Type "help" for available commands.' });
-    w.push({ id: id++, style: "text", text: "" });
-
+    const { lines: w, nextId } = buildWelcome(0);
     setLines(w);
-    setLineCounter(id);
+    setLineCounter(nextId);
   }, []);
 
   const handleSubmit = useCallback(() => {
@@ -148,10 +153,13 @@ export default function Terminal() {
 
     const result = executeCommand(input);
 
+    // Clear: re-show welcome instead of blanking
     if (result.command === "clear") {
-      setLines([]);
+      const { lines: w, nextId } = buildWelcome(lineCounter + 1);
+      setLines(w);
+      setLineCounter(nextId);
       setInput("");
-      setLineCounter(lineCounter + 1);
+      setHasInteracted(false);
       if (trimmed) {
         setHistory((prev) => [trimmed, ...prev]);
         setHistoryIndex(-1);
@@ -200,10 +208,13 @@ export default function Terminal() {
         }
       } else if (e.key === "l" && e.ctrlKey) {
         e.preventDefault();
-        setLines([]);
+        const { lines: w, nextId } = buildWelcome(lineCounter + 1);
+        setLines(w);
+        setLineCounter(nextId);
+        setHasInteracted(false);
       }
     },
-    [handleSubmit, history, historyIndex]
+    [handleSubmit, history, historyIndex, lineCounter]
   );
 
   return (
