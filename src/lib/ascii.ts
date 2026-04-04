@@ -1,5 +1,4 @@
-// Small ASCII art headers for projects
-// Using a compact block style that's smaller than the main ICU banner
+// Compact ASCII art headers for projects
 
 export const projectHeaders: Record<string, string[]> = {
   "blacksite-07": [
@@ -7,6 +6,18 @@ export const projectHeaders: Record<string, string[]> = {
     "  │ ██▄ █   ▄▀▄ ▄▀▀ █▄▀ ▄▀▀ █ ▀█▀ ██▀ │",
     "  │ █▄█ █▄▄ █▀█ ▀▄▄ █ █ ▄██ █  █  █▄▄ │",
     "  │              ── 07 ──               │",
+    "  └─────────────────────────────────────┘",
+  ],
+  "war-times": [
+    "  ┌─────────────────────────────────────┐",
+    "  │ █   █ ▄▀▄ █▀▄   ▀█▀ █ █▄ ▄█ ██▀ ▄▀▀│",
+    "  │ ▀▄▀▄▀ █▀█ █▀▄    █  █ █ ▀ █ █▄▄ ▄██│",
+    "  └─────────────────────────────────────┘",
+  ],
+  "icu-tools": [
+    "  ┌─────────────────────────────────────┐",
+    "  │ █ ▄▀▀ █ █   ▀█▀ ▄▀▄ ▄▀▄ █   ▄▀▀   │",
+    "  │ █ ▀▄▄ ▀▄█    █  ▀▄▀ ▀▄▀ █▄▄ ▄██   │",
     "  └─────────────────────────────────────┘",
   ],
 };

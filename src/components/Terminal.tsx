@@ -77,6 +77,7 @@ export default function Terminal() {
       { id: id++, type: "output", text: "" },
       { id: id++, type: "output", text: "  ICU.TERMINAL v1.0" },
       { id: id++, type: "output", text: "  Interactive Portfolio System" },
+      { id: id++, type: "output", text: "  https://github.com/ICY0U" },
       { id: id++, type: "output", text: "" },
       { id: id++, type: "output", text: "  ─── PROJECTS ───────────────────────────" },
       { id: id++, type: "output", text: "" },
