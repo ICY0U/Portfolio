@@ -5,6 +5,34 @@ import { executeCommand } from "@/lib/commands";
 import { projects } from "@/lib/projects";
 import { projectHeaders } from "@/lib/ascii";
 
+const URL_REGEX = /(https?:\/\/[^\s]+)/g;
+
+function LinkifyText({ text }: { text: string }) {
+  const parts = text.split(URL_REGEX);
+  if (parts.length === 1) return <>{text}</>;
+
+  return (
+    <>
+      {parts.map((part, i) =>
+        URL_REGEX.test(part) ? (
+          <a
+            key={i}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-green-200 cursor-pointer"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {part}
+          </a>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
 interface TerminalLine {
   id: number;
   type: "input" | "output" | "error";
@@ -68,6 +96,11 @@ export default function Terminal() {
         p.status === "Complete" ? "DONE" : "IDEA";
       welcome.push({ id: id++, type: "output", text: `  ${p.tagline}` });
       welcome.push({ id: id++, type: "output", text: `  Status: ${status}  |  Type: open ${p.id}` });
+      if (p.links && p.links.length > 0) {
+        p.links.forEach((link) => {
+          welcome.push({ id: id++, type: "output", text: `  ${link.label}: ${link.url}` });
+        });
+      }
       welcome.push({ id: id++, type: "output", text: "" });
     });
 
@@ -169,7 +202,7 @@ export default function Terminal() {
                 : "text-green-400"
             }`}
           >
-            {line.text}
+            <LinkifyText text={line.text} />
           </div>
         ))}
       </div>

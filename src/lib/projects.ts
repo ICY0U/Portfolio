@@ -26,6 +26,9 @@ export const projects: Project[] = [
     ],
     stack: ["Next.js 15", "TypeScript", "Tailwind CSS", "Framer Motion"],
     status: "In Development",
+    links: [
+      { label: "GitHub", url: "https://github.com/ICY0U/BlackSite-07" },
+    ],
   },
   {
     id: "icu-terminal",
