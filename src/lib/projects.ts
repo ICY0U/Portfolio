@@ -30,25 +30,6 @@ export const projects: Project[] = [
       { label: "GitHub", url: "https://github.com/ICY0U/BlackSite-07" },
     ],
   },
-  {
-    id: "icu-terminal",
-    name: "ICU.TERMINAL",
-    tagline: "Interactive terminal portfolio (you're looking at it)",
-    description: [
-      "A retro CRT terminal interface that serves as a",
-      "personal portfolio. Visitors type commands to explore",
-      "projects, skills, and contact info.",
-      "",
-      "Built with the same attention to retro authenticity",
-      "as BLACKSITE-07. Features boot sequence, scanlines,",
-      "phosphor glow, and screen flicker effects.",
-    ],
-    stack: ["Next.js 15", "TypeScript", "Tailwind CSS", "Framer Motion"],
-    status: "Live",
-    links: [
-      { label: "Source", url: "https://github.com/ICY0U/Portfolio" },
-    ],
-  },
 ];
 
 export function getProject(name: string): Project | undefined {

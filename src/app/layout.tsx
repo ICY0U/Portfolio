@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={jetbrains.variable}>
-      <body className="bg-black text-green-400 font-mono antialiased">
+    <html lang="en" className={`${jetbrains.variable} ${jetbrains.className}`}>
+      <body className="bg-black text-green-400 antialiased">
         {children}
       </body>
     </html>
