@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback, KeyboardEvent } from "react";
 import { executeCommand } from "@/lib/commands";
+import { projects } from "@/lib/projects";
+import { projectHeaders } from "@/lib/ascii";
 
 interface TerminalLine {
   id: number;
@@ -35,23 +37,47 @@ export default function Terminal() {
   }, []);
 
   useEffect(() => {
+    let id = 0;
     const welcome: TerminalLine[] = [
-      { id: 0, type: "output", text: "" },
-      { id: 1, type: "output", text: "  ██╗ ██████╗██╗   ██╗" },
-      { id: 2, type: "output", text: "  ██║██╔════╝██║   ██║" },
-      { id: 3, type: "output", text: "  ██║██║     ██║   ██║" },
-      { id: 4, type: "output", text: "  ██║██║     ██║   ██║" },
-      { id: 5, type: "output", text: "  ██║╚██████╗╚██████╔╝" },
-      { id: 6, type: "output", text: "  ╚═╝ ╚═════╝ ╚═════╝ " },
-      { id: 7, type: "output", text: "" },
-      { id: 8, type: "output", text: "  ICU.TERMINAL v1.0" },
-      { id: 9, type: "output", text: "  Interactive Portfolio System" },
-      { id: 10, type: "output", text: "" },
-      { id: 11, type: "output", text: '  Type "help" for available commands.' },
-      { id: 12, type: "output", text: "" },
+      { id: id++, type: "output", text: "" },
+      { id: id++, type: "output", text: "  ██╗ ██████╗██╗   ██╗" },
+      { id: id++, type: "output", text: "  ██║██╔════╝██║   ██║" },
+      { id: id++, type: "output", text: "  ██║██║     ██║   ██║" },
+      { id: id++, type: "output", text: "  ██║██║     ██║   ██║" },
+      { id: id++, type: "output", text: "  ██║╚██████╗╚██████╔╝" },
+      { id: id++, type: "output", text: "  ╚═╝ ╚═════╝ ╚═════╝ " },
+      { id: id++, type: "output", text: "" },
+      { id: id++, type: "output", text: "  ICU.TERMINAL v1.0" },
+      { id: id++, type: "output", text: "  Interactive Portfolio System" },
+      { id: id++, type: "output", text: "" },
+      { id: id++, type: "output", text: "  ─── PROJECTS ───────────────────────────" },
+      { id: id++, type: "output", text: "" },
     ];
+
+    // Add each project with its ASCII header
+    projects.forEach((p) => {
+      const header = projectHeaders[p.id];
+      if (header) {
+        header.forEach((line) => {
+          welcome.push({ id: id++, type: "output", text: line });
+        });
+      }
+      const status =
+        p.status === "Live" ? "LIVE" :
+        p.status === "In Development" ? "IN DEV" :
+        p.status === "Complete" ? "DONE" : "IDEA";
+      welcome.push({ id: id++, type: "output", text: `  ${p.tagline}` });
+      welcome.push({ id: id++, type: "output", text: `  Status: ${status}  |  Type: open ${p.id}` });
+      welcome.push({ id: id++, type: "output", text: "" });
+    });
+
+    welcome.push({ id: id++, type: "output", text: "  ───────────────────────────────────────" });
+    welcome.push({ id: id++, type: "output", text: "" });
+    welcome.push({ id: id++, type: "output", text: '  Type "help" for available commands.' });
+    welcome.push({ id: id++, type: "output", text: "" });
+
     setLines(welcome);
-    setLineCounter(13);
+    setLineCounter(id);
   }, []);
 
   const handleSubmit = useCallback(() => {
