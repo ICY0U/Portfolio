@@ -78,6 +78,26 @@ export const projects: Project[] = [
       { label: "Play", url: "https://icu92.itch.io/towercu?secret=zZdQoWJHEBBxqql8EuwejK4iGLk" },
     ],
   },
+  {
+    id: "appcu",
+    name: "APPCU",
+    tagline: "Desktop app usage time tracker for Windows",
+    description: [
+      "A lightweight desktop app that automatically tracks",
+      "how much time you spend in your applications. Runs",
+      "quietly in the system tray and logs every session.",
+      "",
+      "Dashboard with 6 stat cards, 9 built-in themes,",
+      "searchable app list, session history, and CSV/JSON",
+      "export. SQLite storage, no installer needed.",
+      "Linux and Mac support on the way.",
+    ],
+    stack: ["C++", "SQLite", "Desktop App"],
+    status: "Live",
+    links: [
+      { label: "GitHub", url: "https://github.com/ICY0U/AppCU" },
+    ],
+  },
   // ─── IN DEVELOPMENT ───
   {
     id: "blacksite-07",
