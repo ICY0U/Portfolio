@@ -47,14 +47,15 @@ export default function Terminal() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [lineCounter, setLineCounter] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && hasInteracted) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [lines]);
+  }, [lines, hasInteracted]);
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -83,7 +84,6 @@ export default function Terminal() {
       { id: id++, type: "output", text: "" },
     ];
 
-    // Add each project with its ASCII header
     projects.forEach((p) => {
       const header = projectHeaders[p.id];
       if (header) {
@@ -116,6 +116,10 @@ export default function Terminal() {
 
   const handleSubmit = useCallback(() => {
     const trimmed = input.trim();
+
+    if (!hasInteracted) {
+      setHasInteracted(true);
+    }
 
     const inputLine: TerminalLine = {
       id: lineCounter,
@@ -151,7 +155,7 @@ export default function Terminal() {
       setHistory((prev) => [trimmed, ...prev]);
       setHistoryIndex(-1);
     }
-  }, [input, lineCounter]);
+  }, [input, lineCounter, hasInteracted]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -190,22 +194,26 @@ export default function Terminal() {
     >
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-4 pt-4 pb-2"
+        className={`flex-1 overflow-y-auto px-4 pb-2 ${
+          hasInteracted ? "pt-4" : "flex flex-col justify-center"
+        }`}
       >
-        {lines.map((line) => (
-          <div
-            key={line.id}
-            className={`whitespace-pre-wrap text-sm leading-6 ${
-              line.type === "error"
-                ? "text-red-400"
-                : line.type === "input"
-                ? "text-green-300"
-                : "text-green-400"
-            }`}
-          >
-            <LinkifyText text={line.text} />
-          </div>
-        ))}
+        <div>
+          {lines.map((line) => (
+            <div
+              key={line.id}
+              className={`whitespace-pre-wrap text-sm leading-6 ${
+                line.type === "error"
+                  ? "text-red-400"
+                  : line.type === "input"
+                  ? "text-green-300"
+                  : "text-green-400"
+              }`}
+            >
+              <LinkifyText text={line.text} />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="px-4 pb-4 flex items-center text-sm">
